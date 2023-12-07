@@ -28,7 +28,12 @@
  */
 package edu.berkeley.cs.jqf.fuzz.random;
 
+//added
+import java.util.HashMap;
+import java.util.HashSet;
+
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -38,6 +43,8 @@ import edu.berkeley.cs.jqf.fuzz.guidance.GuidanceException;
 import edu.berkeley.cs.jqf.fuzz.guidance.Result;
 import edu.berkeley.cs.jqf.fuzz.util.Coverage;
 import edu.berkeley.cs.jqf.instrument.tracing.events.TraceEvent;
+import edu.berkeley.cs.jqf.instrument.tracing.events.BranchEvent;
+import edu.berkeley.cs.jqf.instrument.tracing.events.CallEvent;
 
 /**
  * A front-end that only generates random inputs.
@@ -71,6 +78,7 @@ public class NoGuidance implements Guidance {
         }
         this.maxTrials = maxTrials;
         this.out = out;
+
     }
 
     /**
@@ -80,7 +88,19 @@ public class NoGuidance implements Guidance {
      */
     @Override
     public InputStream getInput() {
-        return Guidance.createInputStream(() -> random.nextInt(256));
+       
+        //return Guidance.createInputStream(() -> random.nextInt(256));
+
+        //our quick and dirty implementation, will be refactoring it later so it looks nicer
+         return new InputStream() {
+            @Override
+            public int read() throws IOException {
+                int val = 200;
+                return val;
+            }
+        };
+
+
     }
 
     /**
@@ -138,8 +158,29 @@ public class NoGuidance implements Guidance {
      */
     @Override
     public Consumer<TraceEvent> generateCallBack(Thread thread) {
-        return getCoverage()::handleEvent;
+
+
+ 
+       return getCoverage()::handleEvent;
+
+       //return this::handleEvent;
+        
     }
+
+     
+     protected void handleEvent(TraceEvent e) {
+        
+       // String tName = Thread.currentThread().getName();
+        
+       // System.out.println(String.format("Thread %s produced an event %s",tName,e.toString()));
+
+         if (e instanceof BranchEvent) {
+            BranchEvent b = (BranchEvent) e;
+                System.out.println(String.format("Event ID: %d, branch arm: %d",b.getIid(),b.getArm()));
+         }
+
+     }
+
 
     /**
      * Returns a reference to the coverage statistics.

@@ -33,6 +33,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import edu.berkeley.cs.jqf.instrument.tracing.events.BranchEvent;
 import edu.berkeley.cs.jqf.instrument.tracing.events.CallEvent;
 import edu.berkeley.cs.jqf.instrument.tracing.events.TraceEvent;
@@ -90,11 +94,21 @@ public class Coverage implements TraceEventVisitor, ICoverage<Counter> {
      * @param e the event to be processed
      */
     public void handleEvent(TraceEvent e) {
+
+       
+       String tName = Thread.currentThread().getName();
+        
+       System.out.println(String.format("Thread %s produced an event %s",tName,e.toString()));
+
+       // this function will apply the approviate visit branch event depending on the type of TraceEvent
+       // for example if BranchEvent - > call visitBranchEvent
         e.applyVisitor(this);
     }
 
     @Override
     public void visitBranchEvent(BranchEvent b) {
+        
+        System.out.println(String.format("Event ID: %d, branch arm: %d",b.getIid(),b.getArm()));
         counter.increment1(b.getIid(), b.getArm());
     }
 
