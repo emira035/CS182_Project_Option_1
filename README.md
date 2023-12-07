@@ -30,7 +30,8 @@ Directly in the tutorials folder we executed the following command to accomplish
 
 we received the following output as a result.
 
-[Image] ![Uploading image.png…]()
+![image](https://github.com/emira035/CS182_Project_Option_1/assets/72326644/6c0ffc0f-6bac-4a00-9da6-acaa5a199e3a)
+
 
 
 
