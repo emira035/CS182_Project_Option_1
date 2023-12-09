@@ -73,7 +73,7 @@ We then reran the following command
 
 Here is the output that we have for the following changes
 
-![image](https://github.com/emira035/CS182_Project_Option_1/assets/72326644/e492679b-79f0-402e-b41c-690665068c59)
+![image](https://github.com/emira035/CS182_Project_Option_1/assets/72326644/cef11802-66cb-42ad-a2b1-6720622263dd)
 
 
 For the next part of this step we were also asked to output the thread-name and event-info for all trace events.
